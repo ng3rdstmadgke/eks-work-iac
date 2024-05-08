@@ -1,0 +1,20 @@
+version: '3.2'
+services:
+  main:
+    hostname: main.eks-work-iac.local
+    build:
+      context: ../
+      dockerfile: docker/devcontainer/Dockerfile
+    volumes:  # docker-compose.yml があるディレクトリからの相対パスで指定する
+      - ..:/eks-work-iac:cached
+      - ~/.aws:/home/vscode/.aws:cached
+      - ~/.ssh:/home/vscode/.ssh:cached
+      - ~/.docker:/home/vscode/.docker:cached
+    command: sleep infinity
+    networks:
+      br-eks-work-iac: {}
+
+networks:
+  br-eks-work-iac:
+    driver: bridge
+    name: br-eks-work-iac
