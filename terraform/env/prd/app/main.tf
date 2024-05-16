@@ -28,8 +28,34 @@ provider "aws" {
 
 data "aws_caller_identity" "self" { }
 
-resource "aws_ecr_repository" "repository" {
-  name                 = "eks-work/prd/sample-app"
+output repositories {
+  value = [
+    aws_ecr_repository.backend_repository.repository_url,
+    aws_ecr_repository.frontend_repository.repository_url,
+    aws_ecr_repository.nginx_repository.repository_url,
+  ]
+}
+
+resource "aws_ecr_repository" "backend_repository" {
+  name                 = "eks-work-app/backend"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "frontend_repository" {
+  name                 = "eks-work-app/frontend"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "nginx_repository" {
+  name                 = "eks-work-app/nginx"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -59,7 +85,9 @@ data "aws_iam_policy_document" "github_actions" {
       "ecr:UploadLayerPart",
     ]
     resources = [
-      aws_ecr_repository.repository.arn,
+      aws_ecr_repository.backend_repository.arn,
+      aws_ecr_repository.frontend_repository.arn,
+      aws_ecr_repository.nginx_repository.arn,
     ]
   }
 
