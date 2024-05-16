@@ -59,3 +59,8 @@ RUN helm repo add eks https://aws.github.io/eks-charts && \
 
 # Flux CLI インストール
 RUN curl -s https://fluxcd.io/install.sh | sudo bash
+
+# Kustomizeのインストール
+# https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash && \
+    mv kustomize /usr/local/bin/
