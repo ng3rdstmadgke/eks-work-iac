@@ -64,3 +64,9 @@ RUN curl -s https://fluxcd.io/install.sh | sudo bash
 # https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash && \
     mv kustomize /usr/local/bin/
+
+# Argo CD CLI インストール
+# https://argo-cd.readthedocs.io/en/stable/cli_installation/#download-with-curl
+RUN curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && \
+    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd && \
+    rm argocd-linux-amd64

@@ -36,3 +36,9 @@ eksctl create iamidentitymapping \
 kubectl describe -n kube-system configmap/aws-auth
 
 ```
+
+# kubeconfigの更新
+
+```bash
+aws eks update-kubeconfig --name eks-work-prd
+```
